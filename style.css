@@ -1,0 +1,38 @@
+body{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:16px;
+    margin:0;
+}
+
+.container{
+    width: 80vh;
+    height: 80vh;
+    margin-top: 15px;
+    display: grid;
+    border: black;
+    border-style: solid;
+}
+
+pixel{
+    
+    border: black;
+    border-style: solid;
+    border-width: 0.1px;
+    background-color: rgba(0, 0, 0, 0);
+    
+}
+
+.showGrid{
+    border-style: solid;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
