@@ -7,6 +7,7 @@ let restart = document.querySelector("#restart")
 let isPressed = false
 let gameInProgress = true
 let areGridLinesOn
+var gameboard = [[]]
 const SlotStatus = {
     None: 0,
 	Player: 1,
@@ -20,9 +21,11 @@ function UpdateGrid()
     while (container.firstChild) {
         container.removeChild(container.lastChild);
     }
+    for (var g = 0; g < slider.value; g++) {
+        gameboard[g] = new Array(slider.value);
+    }
     for(let i = slider.value -1; i >= 0; i--)
     {
-        
         for(let a = 0; a < slider.value; a++)
         {
             const newElement = document.createElement("pixel")
@@ -31,10 +34,11 @@ function UpdateGrid()
             newElement.dataset.x = a
             newElement.dataset.y = i
             newElement.setAttribute('status', SlotStatus.None)
+            gameboard[a][i] = newElement
             container.appendChild(newElement)
-            containerChildren = Array.from(container.childNodes);
         }
     }
+    containerChildren = Array.from(container.childNodes)
     gameInProgress = true
 }
 function PlaceMarker(evt)
@@ -44,16 +48,23 @@ function PlaceMarker(evt)
     evt.target.setAttribute('status', SlotStatus.Player)
     evt.target.style.backgroundColor = `rgba(0, 0, 255, 0.3)`
     containerChildren.splice(containerChildren.indexOf(evt.target), 1)
+    
+
+    if(CheckWin(false, evt.target.dataset.x, evt.target.dataset.y))
+    {
+        setTimeout(function() {
+            alert("You Win!");
+          }, 0)
+        gameInProgress = false
+        return 
+    }
 
     if(CheckTie())
         return
+
+
     PlaceComputerMarker()
     
-}
-
-function isTargetValue(x1, y1, x2, y2)
-{
-    return (x1 == x2 && y1 == y2)
 }
 
 function PlaceComputerMarker()
@@ -88,6 +99,43 @@ function CheckTie()
         return true
     }
     return false
+}
+
+function CheckWin(isComputer, x, y)
+{
+    let counter = 1
+    var checkState
+    isComputer ? checkState = SlotStatus.Computer : checkState = SlotStatus.Player
+    var incY = 1
+    let originalX = x
+    let originalY = y
+    while(gameboard[x][++y].getAttribute('status') == checkState)
+    {
+        counter++
+    }
+    y = originalY
+    while(gameboard[x][--y].getAttribute('status') == checkState)
+    {
+        counter++
+    }
+    console.log(counter)
+    if(counter == 5)
+            return true
+    return false
+    /*
+    for(i = -1; i <= 1; i++)
+    {
+        for(a = -1; a <= 1; a++)
+        {
+            if(i == 0 && a == 0)
+                continue
+            if(gameboard[x + i][y + a].getAttribute('status') == checkState)
+            {
+                
+            }
+        }
+    }
+    */
 }
 
 UpdateGrid();
