@@ -15,6 +15,15 @@ body{
     display: grid;
     border: black;
     border-style: solid;
+    background-color: white;
+}
+
+#endText
+{
+    font-size: 40px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    
 }
 
 pixel{
